@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Causality Intelligence Association — Oregon State University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:          #003087;
+      --blue-dark:     #001e5a;
+      --blue-mid:      #11336d;
+      --blue-light:    #dce6f5;
+      --blue-xlight:   #eef3fb;
+      --orange:        #C94A05;
+      --orange-light:  #e3cec0;
+      --orange-dark:   #a33a02;
+
+      --beige:         #F5F0E8;
+      --beige-dark:    #EDE7D9;
+      --beige-deeper:  #E0D8C8;
+      --ink:           #1c1a16;
+      --ink-mid:       #3d3a33;
+      --ink-muted:     #7a7568;
+      --ink-faint:     #b5b0a5;
+
+      --serif: 'Calibri', Callibri, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      color: var(--orange-light);
+      background: var(--beige);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--beige);
+      border-bottom: 1px solid var(--beige-deeper);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem;
+      height: 58px;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .nav-logo .osu-badge {
+      background: var(--orange);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 3px;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    /* ── HERO ── */
+    .hero {
+      padding-top: 58px;
+      background: var(--beige-dark);
+      min-height: 90vh;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    /* warm texture overlay */
+    .hero-texture {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(245,240,232,0.03) 59px, rgba(245,240,232,0.03) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(245,240,232,0.03) 59px, rgba(245,240,232,0.03) 60px);
+    }
+
+
+    .hero-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem 7rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 1.8rem;
+      font-weight: 10;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: ''; display: block;
+      width: 28px; height: 1px;
+      background: var(--orange); opacity: 0.55;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(5.2rem, 4vw, 4.4rem);
+      font-weight: 800;
+      color: var(--beige);
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 em {font-style: normal; color: #1f4074; }
+
+    .hero-sub {
+      font-size: 1.08rem;
+      color: #8b3303;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+    .btn-outline-light {
+      background: transparent;
+      color: rgba(28, 11, 77, 0.8);
+      border: 1px solid rgba(36, 11, 91, 0.25);
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline-light:hover { border-color: rgba(245,240,232,0.6); color: var(--beige); }
+
+    .btn-outline-blue {
+      background: transparent;
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-outline-blue:hover { background: var(--blue); color: #fff; }
+
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(245,240,232,0.25);
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(245,240,232,0.25), transparent);
+    }
+
+    /* ── SHARED SECTION STYLES ── */
+    section { scroll-margin-top: 58px; }
+
+    .section-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-rule {
+      width: 36px; height: 2px;
+      background: var(--orange);
+      margin-bottom: 1.5rem;
+    }
+
+    h2.section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 4vw, 2.5rem);
+      font-weight: 500;
+      color: var(--blue-dark);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      max-width: 580px;
+      line-height: 1.8;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--beige); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-pillars { display: flex; flex-direction: column; gap: 1.75rem; }
+
+    .pillar { display: flex; gap: 1rem; align-items: flex-start; }
+
+    .pillar-icon {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--blue-xlight);
+      border: 1px solid var(--blue-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .pillar-icon svg { width: 18px; height: 18px; stroke: var(--blue); }
+
+    .pillar-title { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.2rem; }
+    .pillar-text  { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.65; }
+
+    /* ── MEETINGS ── */
+    #meetings { background: var(--beige-dark); }
+
+    .meetings-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .meeting-card {
+      background: var(--beige);
+      border: 1px solid var(--beige-deeper);
+      border-top: 3px solid var(--blue);
+      border-radius: 4px;
+      padding: 1.75rem;
+    }
+
+    .meeting-card.next { border-top-color: var(--orange); }
+
+    .card-tag {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 0.75rem;
+    }
+
+    .card-tag.orange { color: var(--orange); }
+
+    .meeting-title {
+      font-family: var(--serif);
+      font-size: 1.2rem; font-weight: 500;
+      color: var(--ink); margin-bottom: 0.6rem; line-height: 1.3;
+    }
+
+    .meeting-meta {
+      font-size: 0.85rem; color: var(--ink-muted);
+      display: flex; flex-direction: column; gap: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .meeting-meta strong { color: var(--ink-mid); font-weight: 500; }
+
+    .meeting-desc { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.65; }
+
+    /* ── READINGS ── */
+    #readings { background: var(--beige); }
+
+    .readings-list { margin-top: 2.5rem; border-top: 1px solid var(--beige-deeper); }
+
+    .reading-item {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 1.25rem;
+      align-items: start;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--beige-deeper);
+    }
+
+    .reading-num {
+      font-family: var(--serif);
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--beige-deeper); line-height: 1; padding-top: 3px;
+    }
+
+    .reading-title {
+      font-family: var(--serif);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--ink); line-height: 1.3; margin-bottom: 0.25rem;
+    }
+
+    .reading-authors { font-size: 0.825rem; color: var(--ink-muted); margin-bottom: 0.4rem; }
+
+    .reading-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 3px;
+    }
+
+    .tag-blue   { background: var(--blue-xlight); color: var(--blue); border: 1px solid var(--blue-light); }
+    .tag-orange { background: var(--orange-light); color: var(--orange-dark); border: 1px solid #f0cbb8; }
+
+    .reading-status { font-size: 0.75rem; font-weight: 500; white-space: nowrap; padding-top: 4px; }
+    .status-done    { color: var(--ink-faint); }
+    .status-up      { color: var(--orange); }
+    .status-planned { color: var(--blue); }
+
+    .paper-archive {
+      margin-top: 2rem;
+      border: 1px solid var(--beige-deeper);
+      border-radius: 4px;
+      background: var(--beige);
+    }
+
+    .paper-archive summary {
+      cursor: pointer;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      list-style: none;
+    }
+
+    .paper-archive summary:hover {
+      background: var(--blue-xlight);
+    }
+
+    /* ── MEET THE BOARD ── */
+    #board {
+      background: var(--beige-dark);
+    }
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .board-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .board-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .board-card {
+      background: var(--beige);
+      border: 1px solid var(--beige-deeper);
+      border-top: 3px solid var(--orange);
+      border-radius: 4px;
+      padding: 1.75rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .board-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .board-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--blue-xlight);
+      border: 2px solid var(--blue-light);
+      margin: 0 auto 1rem;
+    }
+
+    .board-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .board-role {
+      color: var(--orange);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .board-bio {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ── JOIN ── */
+    #join { background: var(--beige-dark); border-top: 1px solid var(--beige-deeper); }
+
+    #join .section-inner {
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+
+    .join-box {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      width: 100%; margin-top: 2rem;
+      align-items: center;
+    }
+
+    .join-cta-area { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+
+    .join-detail {
+      background: var(--beige);
+      border: 1px solid var(--beige-deeper);
+      border-left: 3px solid var(--blue);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+
+    .join-detail-title {
+      font-weight: 600; font-size: 0.85rem; color: var(--blue-dark); margin-bottom: 0.5rem;
+    }
+
+    .join-detail p { font-size: 0.875rem; color: var(--ink-mid); line-height: 1.65; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--blue-dark);
+      color: orange;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+    }
+
+    footer .divider { margin: 0 0.5rem; opacity: 0.3; }
+    footer a { color: var(--orange); text-decoration: none; }
+    footer a:hover { color: var(--beige); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.5s ease both; }
+    h1            { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-sub     { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .about-grid, .meetings-layout, .join-box { grid-template-columns: 1fr; gap: 2rem; }
+      .reading-item { grid-template-columns: 36px 1fr; }
+      .reading-status { display: none; }
+      .section-inner { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      Causal Intelligence Association
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#meetings">Meetings</a></li>
+      <li><a href="#readings">Readings</a></li>
+      <li><a href="#board">Board</a></li>
+      <li><a href="#join">Join</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-texture"></div>
+    <div class="hero-orange-blob"></div>
+    <div class="hero-blue-blob"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Oregon State University</p>
+      <h1><em>Causal Intelligence Association</em></h1>
+      <p class="hero-sub">
+       A community dedicated to exploring causality, causal inference, and the foundations of intelligent systems through seminars and discussions.      </p>
+      <div class="hero-actions">
+        <a href="#readings" class="btn-primary">View Reading List</a>
+        <a href="#join" class="btn-outline-light">Join!</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      scroll
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div>
+          <p class="section-label">About Us</p>
+          <div class="section-rule"></div>
+          <h2 class="section-title">Rigorous thinking,<br>open discussion</h2>
+          <p class="section-body">
+            The Causality Intelligence Association is an interdisciplinary reading group at Oregon State. We meet weekly to work through foundational and cutting-edge papers on causal reasoning, machine learning theory, and the science of cause and effect.
+          </p>
+          <p class="section-body" style="margin-top: 1rem;">
+            Open to students, faculty, and researchers of all backgrounds — if you think carefully about how things work, you belong here.
+          </p>
+        </div>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+            </div>
+            <div>
+              <p class="pillar-title">Seminal Papers</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+            </div>
+            <div>
+              <p class="pillar-title">Weekly Discussion</p>
+              <p class="pillar-text">Each session is a genuine dialogue — questions encouraged, assumptions challenged, ideas tested.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+            </div>
+            <div>
+              <p class="pillar-title">Interdisciplinary</p>
+              <p class="pillar-text">Members from AI, CS, Statistics, Philosophy, EECS, and beyond — causal thinking spans them all.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEETINGS -->
+  <section id="meetings">
+    <div class="section-inner">
+      <p class="section-label">Schedule</p>
+      <div class="section-rule"></div>
+      <h2 class="section-title">Meetings</h2>
+      <p class="section-body">We meet every week during the academic term. Sessions run about an hour. All are welcome! </p>
+
+      <div class="meetings-layout">
+        <div class="meeting-card next">
+          <p class="card-tag orange">Next Meeting</p>
+          <p class="meeting-title">Causal Inference in Large Language Models</p>
+          <div class="meeting-meta">
+            <span><strong>When</strong> — Thursdays, 4:00 - 5:00 PM</span>
+            <span><strong>Where</strong> — Kelley Engineering Center, Rm (whatever)</span>
+          </div>
+          <p class="meeting-desc">
+            (insert announcement for meeting)
+          </p>
+        </div>
+        <div class="meeting-card">
+          <p class="card-tag">Recurring Format</p>
+          <p class="meeting-title">How a typical session runs</p>
+          <div class="meeting-meta">
+            <span><strong>0–15 min</strong> — Context &amp; framing</span>
+            <span><strong>15–30 min</strong> — Paper walkthrough</span>
+            <span><strong>30-60 min</strong> — Open discussion</span>
+          </div>
+          <p class="meeting-desc">
+            One member leads with a short overview, then we work through the key arguments and questions together.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READINGS -->
+<section id="readings">
+  <div class="section-inner">
+
+    <p class="section-label">Curriculum</p>
+    <div class="section-rule"></div>
+    <h2 class="section-title">Reading List</h2>
+
+    <!-- Upcoming paper -->
+    <div id="upcoming-paper"></div>
+
+    <!-- Archive -->
+    <details class="paper-archive">
+      <summary>Past Papers</summary>
+
+      <div class="readings-list" id="past-papers">
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- BOARD -->
+<section id="board">
+  <div class="section-inner">
+    <p class="section-label">Leadership</p>
+    <div class="section-rule"></div>
+    <h2 class="section-title">Meet the Board</h2>
+
+    <p class="section-body">
+      Our board organizes meetings, selects readings, and helps build an
+      interdisciplinary community around causality and intelligent systems.
+    </p>
+
+    <div class="board-grid">
+
+      <div class="board-card">
+        <img src="images/president.jpg" alt="President" class="board-photo">
+        <p class="board-name">Oliver Flood</p>
+        <p class="board-role">President</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+      <div class="board-card">
+        <img src="images/vice-president.jpg" alt="Vice President" class="board-photo">
+        <p class="board-name">Matteo Ceriscioli</p>
+        <p class="board-role">Vice President</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+      <div class="board-card">
+        <img src="images/treasurer.jpg" alt="Treasurer" class="board-photo">
+        <p class="board-name">Umna Khawaja</p>
+        <p class="board-role">Treasurer</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+      <div class="board-card">
+        <img src="images/secretary.jpg" alt="Secretary" class="board-photo">
+        <p class="board-name">Andy Nguyen</p>
+        <p class="board-role">Secretary</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+      <div class="board-card">
+        <img src="images/outreach.jpg" alt="Outreach Chair" class="board-photo">
+        <p class="board-name">Name Here</p>
+        <p class="board-role">Outreach Chair</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+      <div class="board-card">
+        <img src="images/events.jpg" alt="Event Coordinator" class="board-photo">
+        <p class="board-name">Name Here</p>
+        <p class="board-role">Event Coordinator</p>
+        <p class="board-bio">
+          (insert bio)
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- JOIN -->
+  <section id="join">
+    <div class="section-inner">
+      <p class="section-label">Get Involved</p>
+      <div class="section-rule"></div>
+      <h2 class="section-title">Join!</h2>
+      <div class="join-box">
+        <div>
+          <p class="section-body">
+            (whatever the application process is)
+          </p>
+          <div class="join-cta-area" style="margin-top: 1.75rem;">
+            <a href="mailto:causality@groups.oregonstate.edu" class="btn-primary">Email Us</a>
+            <a href="#meetings" class="btn-outline-blue">See Meeting Times</a>
+          </div>
+        </div>
+        <div class="join-detail">
+          <p class="join-detail-title">Who shows up</p>
+          <p>Graduate students, undergraduates, faculty. No particular background required — CS, AI, stats, philosophy, and engineering are all well represented.</p>
+          <p style="margin-top: 0.75rem;">Meetings are informal. Bring your questions, bring your skepticism.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->fotter
+  <footer>
+    <p>
+      Causality Intelligence Association <span class="divider">·</span>
+      Oregon State University <span class="divider">·</span>
+      Corvallis, OR
+    </p>
+    <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.72rem;">
+      Affiliated with the College of Engineering
+    </p>
+  </footer>
+
+  <script>
+  async function loadReadingList() {
+
+    const csvUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD2A_FaLQg9bvrFwPaSk4BS0YrUOB7Ll6PB49uQWxbkvzn8XqW8RIm1JXqrGFlDXKKv6Z3I6UNVWq9/pub?output=csv";
+
+    const response = await fetch(csvUrl);
+    const text = await response.text();
+
+    const rows = text
+      .split("\n")
+      .slice(1)
+      .filter(row => row.trim());
+
+    const upcoming =
+      document.getElementById("upcoming-paper");
+
+    const archive =
+      document.getElementById("past-papers");
+
+    let paperNumber = 1;
+
+    rows.forEach(row => {
+
+      const cols = row.split(",");
+
+      const status = cols[0]?.trim();
+      const title = cols[1]?.trim();
+      const authors = cols[2]?.trim();
+      const venue = cols[3]?.trim();
+      const link = cols[4]?.trim();
+
+      if (status === "Upcoming") {
+
+        upcoming.innerHTML = `
+          <div class="meeting-card next" style="margin-top:2rem;">
+            <p class="card-tag orange">Upcoming Read</p>
+
+            <p class="meeting-title">
+              ${title}
+            </p>
+
+            <div class="meeting-meta">
+              <span>${authors}</span>
+              <span>${venue}</span>
+            </div>
+
+            <a href="${link}"
+              target="_blank"
+              class="btn-outline-blue"
+              style="margin-top:1rem; display:inline-block;">
+              Read Paper
+            </a>
+          </div>
+        `;
+      }
+
+      if (status === "Read") {
+        archive.innerHTML += `
+          <div class="meeting-card" style="margin-bottom: 1.5rem;">
+            <p class="card-tag">${String(paperNumber).padStart(2,'0')}</p>
+            <p class="meeting-title">
+              <a href="${link}" target="_blank" style="color: inherit; text-decoration: none;">
+                ${title}
+              </a>
+            </p>
+            <div class="meeting-meta">
+              <span>${authors}</span>
+              <span>${venue}</span>
+            </div>
+            <a href="${link}" target="_blank" class="btn-outline-blue"
+              style="margin-top: 1rem; display: inline-block;">
+              Read Paper
+            </a>
+          </div>
+        `;
+        paperNumber++;
+      }
+
+    });
+
+  }
+
+  loadReadingList();
+  </script>
+
+</body>
+</html>
